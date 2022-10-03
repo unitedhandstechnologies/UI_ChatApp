@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  Kottenance
+//
+//  Created by Gurpreet Singh on 02/02/22.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include? "tmp.xcconfig"

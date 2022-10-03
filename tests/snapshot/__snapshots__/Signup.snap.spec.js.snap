@@ -1,0 +1,342 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignUp screen SignUp screen 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "rgb(245, 245, 245)",
+      "flex": 1,
+      "paddingBottom": 47.08235294117647,
+      "paddingHorizontal": 34.285714285714285,
+      "paddingTop": 25,
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": undefined,
+            "fontSize": 20,
+          },
+          Object {
+            "color": "#4A4A4A",
+            "margin": 16,
+          },
+          Object {
+            "fontFamily": "FontAwesome",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "borderBottomColor": "#000000",
+          "borderBottomWidth": 2,
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "margin": 5,
+          "maxHeight": 60,
+          "minHeight": 40,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 0.1,
+          "paddingLeft": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 20,
+            },
+            Object {
+              "color": "#4A4A4A",
+            },
+            Object {
+              "fontFamily": "FontAwesome",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <TextInput
+      keyboardType="email-address"
+      onChangeText={[Function]}
+      placeholder="email"
+      placeholderTextColor="#000000"
+      selectionColor="#000000"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#000000",
+            "flex": 0.9,
+            "fontSize": 14,
+            "height": 37,
+            "marginBottom": 12,
+            "marginTop": 12,
+            "paddingBottom": 4,
+            "paddingLeft": 10,
+            "paddingTop": 4,
+          },
+          undefined,
+        ]
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "borderBottomColor": "#000000",
+          "borderBottomWidth": 2,
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "margin": 5,
+          "maxHeight": 60,
+          "minHeight": 40,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 0.1,
+          "paddingLeft": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 20,
+            },
+            Object {
+              "color": "#4A4A4A",
+            },
+            Object {
+              "fontFamily": "FontAwesome",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="password"
+      placeholderTextColor="#000000"
+      secureTextEntry={true}
+      selectionColor="#000000"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#000000",
+            "flex": 0.9,
+            "fontSize": 14,
+            "height": 37,
+            "marginBottom": 12,
+            "marginTop": 12,
+            "paddingBottom": 4,
+            "paddingLeft": 10,
+            "paddingTop": 4,
+          },
+          undefined,
+        ]
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "borderBottomColor": "#000000",
+          "borderBottomWidth": 2,
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "margin": 5,
+          "maxHeight": 60,
+          "minHeight": 40,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 0.1,
+          "paddingLeft": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 20,
+            },
+            Object {
+              "color": "#4A4A4A",
+            },
+            Object {
+              "fontFamily": "FontAwesome",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="confirm password"
+      placeholderTextColor="#000000"
+      returnKeyType="done"
+      secureTextEntry={true}
+      selectionColor="#000000"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#000000",
+            "flex": 0.9,
+            "fontSize": 14,
+            "height": 37,
+            "marginBottom": 12,
+            "marginTop": 12,
+            "paddingBottom": 4,
+            "paddingLeft": 10,
+            "paddingTop": 4,
+          },
+          undefined,
+        ]
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "marginTop": 42.857142857142854,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#000000",
+          "borderRadius": 214.28571428571428,
+          "justifyContent": "center",
+          "opacity": 1,
+          "paddingBottom": 42.857142857142854,
+          "paddingTop": 42.857142857142854,
+          "width": 428.57142857142856,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "center",
+              "color": "#ffffff",
+              "fontSize": 34.285714285714285,
+              "fontWeight": "bold",
+              "textAlign": "center",
+            },
+            undefined,
+          ]
+        }
+      >
+        SIGN UP
+      </Text>
+    </View>
+  </View>
+</View>
+`;

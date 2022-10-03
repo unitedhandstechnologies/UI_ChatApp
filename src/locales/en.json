@@ -1,0 +1,83 @@
+{
+  "welcome": {
+    "title": "Enjoy the new experience of chatting with Global Friends",
+    "subTitle": "Connect to people around the world",
+    "getStart": "Get Started"
+  },
+  "login": {
+    "login": "Login",
+    "enterMobile": "Enter your mobile to continue!",
+    "next": "Next",
+    "phoneNumber": "Phone Number",
+    "newUser": "New User?",
+    "createAccount": "Create Account",
+    "searchCountry": "Search Country"
+  },
+  "signup": {
+    "registeredWith": "Registered With Kottenance!",
+    "enterMobile": "Enter your mobile to continue!",
+    "submit": "Submit",
+    "phoneNumber": "Phone Number",
+    "alreadyUser": "Already an User?",
+    "login": "Login",
+    "country": "Country/Region",
+    "name": "Nickname",
+    "save": "Save",
+    "editProfile": "Edit Profile",
+    "city": "City"
+  },
+  "otp": {
+    "phoneVerification": "Phone Verification",
+    "otpMessage": "Enter 6 digit otp sent to your registered mobile number!",
+    "submit": "Submit",
+    "resendOtp": "Resend Otp"
+  },
+  "contacts": {
+    "contact": "Contacts",
+    "typeMessage": "Type your message",
+    "send": "Send",
+    "message": "Message field is required",
+    "loading": "Please wait...",
+    "noContact": "No Contact found"
+  },
+  "tabs": {
+    "contact": "Contacts",
+    "chat": "Chats",
+    "setting": "Settings"
+  },
+  "chatScreen": {
+    "chats": "Chats",
+    "search": "Search",
+    "message": "Type your message...",
+    "noChat": "No chat found",
+    "delete": "Delete",
+    "sureDelete": "Are you sure want to delete thread?",
+    "deleteMessage": "Are you sure delete message?",
+    "typing": "typing...",
+    "notRegister": "(Not Register)",
+    "activeChat": "Push",
+    "copy": "Copy Message",
+    "messageCopyed": "Message copied"
+  },
+  "settings": {
+    "alertNo": "No",
+    "alertYes": "Yes",
+    "alert": "Alert",
+    "sureLogout": "Are you sure want to logout?",
+    "appName": "kottenance",
+    "sureDelete": "Are you sure want to delete Account? After delete account your chat will not recover!!"
+  },
+  "alert": {
+    "warning": "Warning",
+    "somethingWentWrong": "Some thing went worng",
+    "alert": "Alert",
+    "otpsend": "OTP resend in your register phone number!",
+    "profile": "Profile updated successfully!!",
+    "name": "Name field is required"
+  },
+  "errorScreen":{
+    "somethingWrong": "Something went wrong",
+    "appInProblem": "Problem in app",
+    "back": "Go back"
+  }
+}

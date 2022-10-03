@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "184281577000",
+    "project_id": "chat-app-ad55c",
+    "storage_bucket": "chat-app-ad55c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184281577000:android:65ca644d0a1e2ee2dda71d",
+        "android_client_info": {
+          "package_name": "com.kottenance.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184281577000-8rl1avhc7hvgkhnk4lsrsunkcutirkft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Rpd9T-9R4HyO3VnGFY9sWemzY6y5yx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184281577000-8rl1avhc7hvgkhnk4lsrsunkcutirkft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184281577000:android:d563b78c2db859c4dda71d",
+        "android_client_info": {
+          "package_name": "com.kottenance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184281577000-8rl1avhc7hvgkhnk4lsrsunkcutirkft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Rpd9T-9R4HyO3VnGFY9sWemzY6y5yx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184281577000-8rl1avhc7hvgkhnk4lsrsunkcutirkft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

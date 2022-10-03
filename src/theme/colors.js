@@ -1,0 +1,15 @@
+export const colors = {
+  selectedPrimaryColor: '#4c49d4',
+  blueColor: '#4c49d4',
+  white: '#ffff',
+  lightText: '#a3a0a3',
+  lightPrimaryColor: '#8b86d5',
+  textBackgroundColor: '#f5f5f5',
+  grey: '#F5F5F5',
+  lightBlue: '#F7F8FD',
+  black: '#0e0c0c',
+  placeholderColor: '#bdbdc3',
+  blur: 'rgba(23, 21, 32, 0)',
+  transparent: 'transparent',
+  redColor1: 'red',
+};

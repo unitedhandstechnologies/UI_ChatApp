@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173237006012",
+    "project_id": "kottenance-5350f",
+    "storage_bucket": "kottenance-5350f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173237006012:android:d7204f1a18fb8643272ab9",
+        "android_client_info": {
+          "package_name": "com.kottenance.production"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173237006012-7b8gc0d5eka4enfhhp43jqhpbkd64mj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi656IClcqfwDIQ8HzepVDwHHFFoZkoag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173237006012-7b8gc0d5eka4enfhhp43jqhpbkd64mj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

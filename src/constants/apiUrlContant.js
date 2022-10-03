@@ -1,0 +1,18 @@
+export const ApiUrl = {
+  login: '/user/login',
+  signup: '/user/signup',
+  updateProfile: '/user/profile',
+  verifyOtp: '/verify-otp',
+  resendOtp: '/resend-otp',
+  logout: '/logout',
+  appInfo: '/app-information',
+  sendMessage: '/send-message',
+  sendMessagePhone: '/send-message-phone',
+  lastChat: '/last-chat',
+  getMessage: '/get-message/',
+  readMessage: '/read-message/',
+  deleteAccount: '/delete-account',
+  deleteMessage: '/delete-single-message/',
+  deleteThread: '/delete-messages/',
+  syncContacts: '/sync-users',
+};
