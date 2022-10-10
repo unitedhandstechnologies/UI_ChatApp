@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   PermissionsAndroid,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import {
   Typography,
@@ -16,7 +16,7 @@ import {
   Wrapper,
   CountryPicker,
   Loader,
-  SearchBarWithAutocomplete
+  SearchBarWithAutocomplete,
 } from 'components';
 import {colors} from 'theme';
 import {strings} from 'locales/i18n';
@@ -30,8 +30,8 @@ import Style from './style';
 import {registerUser, getLocationData} from './apis';
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
-import Config from "react-native-config";
-import axios from 'axios'
+import Config from 'react-native-config';
+import axios from 'axios';
 import {useDebounce} from 'hooks';
 Geocoder.init(Config.GOOGLE_API_KEY);
 const GOOGLE_PACES_API_BASE_URL = 'https://maps.googleapis.com/maps/api/place';
@@ -45,9 +45,9 @@ const Signup = () => {
     flag: require('../../utils/Flags/images/de.png'),
   });
   const [location, setLocation] = useState({
-    latitude : 0,
-    longitude: 0
-  })
+    latitude: 0,
+    longitude: 0,
+  });
   const [userForm, setUserForm] = useState({
     name: '',
     phone: '',
@@ -58,107 +58,123 @@ const Signup = () => {
     phone: '',
     city: '',
   });
-  const [search, setSearch] = useState({ term: '', fetchPredictions: false })
-  const [showPredictions, setShowPredictions] = useState(false)
-  const [predictions, setPredictions] = useState([])
+  const [search, setSearch] = useState({term: '', fetchPredictions: false});
+  const [showPredictions, setShowPredictions] = useState(false);
+  const [predictions, setPredictions] = useState([]);
   useEffect(() => {
     //Geolocation.getCurrentPosition(info => console.log('-------',info));
-    requestLocationPermission()
-  },[])
+    requestLocationPermission();
+  }, []);
   const requestLocationPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Location Permission',
-          message: 'This App needs access to your location ' +
-                     'so we can know where you are.',
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      )
+          message:
+            'This App needs access to your location ' +
+            'so we can know where you are.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use locations ")
+        console.log('You can use locations ');
         Geolocation.getCurrentPosition(
-          (position) => {
+          position => {
             console.log(position);
             setLoading(true);
             setLocationEnabled(true);
-            setLocation({latitude:position.coords.latitude, longitude:position.coords.longitude});
-            Geocoder.from(position.coords.latitude, position.coords.longitude)
-            .then(json => {
-                    var addressComponent = json.results[0].address_components[1];
-                    if(addressComponent) {
-                      setLoading(false);
-                      handleInput('city',addressComponent.short_name)
-                    }
-            })
-            .catch((error) => { 
-              setLocationEnabled(false);
-              setLoading(false);
-             console.warn(error)
+            setLocation({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
             });
+            Geocoder.from(position.coords.latitude, position.coords.longitude)
+              .then(json => {
+                var addressComponent = json.results[0].address_components[1];
+                if (addressComponent) {
+                  setLoading(false);
+                  handleInput('city', addressComponent.short_name);
+                }
+              })
+              .catch(error => {
+                setLocationEnabled(false);
+                setLoading(false);
+                console.warn(error);
+              });
           },
-          (error) => {
+          error => {
             setAutoSearch(true);
             setLocationEnabled(false);
             setLoading(false);
             // See error code charts below.
             console.log(error.code, error.message);
           },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        );
       } else {
-        console.log("Location permission denied");
+        console.log('Location permission denied');
         setLocationEnabled(false);
         setAutoSearch(true);
       }
     } catch (err) {
-      console.warn(err)
+      console.warn(err);
     }
-  }
+  };
   const onChangeText = async () => {
-    if (search.term.trim() === '') return
-    if (!search.fetchPredictions) return
+    if (search.term.trim() === '') return;
+    if (!search.fetchPredictions) return;
 
-    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/autocomplete/json?key=${Config.GOOGLE_API_KEY}&input=${search.term}`
+    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/autocomplete/json?key=${Config.GOOGLE_API_KEY}&input=${search.term}`;
     try {
       const result = await axios.request({
         method: 'post',
-        url: apiUrl
-      })
+        url: apiUrl,
+      });
       if (result) {
-        const { data: { predictions } } = result
-        setPredictions(predictions)
-        setShowPredictions(true)
+        const {
+          data: {predictions},
+        } = result;
+        setPredictions(predictions);
+        setShowPredictions(true);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-  useDebounce(onChangeText, 1000, [search.term])
+  };
+  useDebounce(onChangeText, 1000, [search.term]);
 
-  const onPredictionTapped = async (placeId, description, structured_formatting) => {
-    
+  const onPredictionTapped = async (
+    placeId,
+    description,
+    structured_formatting,
+  ) => {
     let city = structured_formatting.main_text;
-    handleInput('city',city);
-    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/details/json?key=${Config.GOOGLE_API_KEY}&place_id=${placeId}`
+    handleInput('city', city);
+    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/details/json?key=${Config.GOOGLE_API_KEY}&place_id=${placeId}`;
     try {
       const result = await axios.request({
         method: 'post',
-        url: apiUrl
-      })
+        url: apiUrl,
+      });
       if (result) {
-        const { data: { result: { geometry: { location } } } } = result
-        const { lat, lng } = location
-        setLocation({latitude:lat,longitude:lng});
-        setShowPredictions(false)
-        setSearch({ term: description, fetchPredictions: false })
+        const {
+          data: {
+            result: {
+              geometry: {location},
+            },
+          },
+        } = result;
+        const {lat, lng} = location;
+        setLocation({latitude: lat, longitude: lng});
+        setShowPredictions(false);
+        setSearch({term: description, fetchPredictions: false});
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
   const handleInput = (name, value) => {
     setUserForm({...userForm, [name]: value});
   };
@@ -221,7 +237,7 @@ const Signup = () => {
           });
         })
         .catch(({error_message}) => {
-          console.log('eroo',error_message)
+          console.log('eroo', error_message);
           Alert.alert(
             strings('alert.warning'),
             error_message ?? strings('alert.somethingWentWrong'),
@@ -234,9 +250,9 @@ const Signup = () => {
   }, [checkAllRequiredField, userForm, countryCode, userImage]);
   return (
     <Wrapper>
-      <ScrollView 
-        nestedScrollEnabled={true} 
-        showsVerticalScrollIndicator={false} 
+      <ScrollView
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
         style={Style.container}>
         <Typography
           style={Style.heading}
@@ -301,27 +317,29 @@ const Signup = () => {
             </View>
           </View>
 
-          { autoSearch && !locationEnabled ? 
+          {autoSearch && !locationEnabled ? (
             <View style={Style.field}>
               <Typography style={Style.label} text={strings('signup.city')} />
               <SafeAreaView style={{flex: 1}}>
-                  <SearchBarWithAutocomplete
-                    placeholderTextColor={colors.placeholderColor}
-                    style={[userErrors.city && Style.inputError]}
-                    // value={search.term}
-                    value={userForm.city}
-                    placeholder={strings('signup.city')}
-                    onFocus={() => removeError('city')}
-                    onBlur={() => checkError({name: 'city', value: userForm.city})}
-                    onChangeText={(text) => {
-                      handleInput('city', text)
-                      setSearch({ term: text, fetchPredictions: true })
-                    }}
-                    showPredictions={showPredictions}
-                    predictions={predictions}
-                    onPredictionTapped={onPredictionTapped}
-                  />
-            
+                <SearchBarWithAutocomplete
+                  placeholderTextColor={colors.placeholderColor}
+                  style={[userErrors.city && Style.inputError]}
+                  // value={search.term}
+                  value={userForm.city}
+                  placeholder={strings('signup.city')}
+                  onFocus={() => removeError('city')}
+                  onBlur={() =>
+                    checkError({name: 'city', value: userForm.city})
+                  }
+                  onChangeText={text => {
+                    handleInput('city', text);
+                    setSearch({term: text, fetchPredictions: true});
+                  }}
+                  showPredictions={showPredictions}
+                  predictions={predictions}
+                  onPredictionTapped={onPredictionTapped}
+                />
+
                 <View>
                   {userErrors.city ? (
                     <Text style={Style.errorText}>{userErrors.city}</Text>
@@ -329,7 +347,7 @@ const Signup = () => {
                 </View>
               </SafeAreaView>
             </View>
-            :
+          ) : (
             <View style={Style.field}>
               <Typography style={Style.label} text={strings('signup.city')} />
               <TextInput
@@ -348,7 +366,7 @@ const Signup = () => {
                 ) : null}
               </View>
             </View>
-          }
+          )}
           <Button
             titleStyle={Style.buttonText}
             title={strings('signup.submit')}

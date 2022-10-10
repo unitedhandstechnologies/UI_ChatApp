@@ -24,7 +24,7 @@ import {getUserInfo, timeSince, createLocalNotification} from 'utils';
 import {getMessages, sendMessage, readAllMessage} from './apis';
 import Style from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
-import Config from "react-native-config";
+import Config from 'react-native-config';
 
 const ChatScreen = ({navigation}) => {
   const socketRef = useRef();

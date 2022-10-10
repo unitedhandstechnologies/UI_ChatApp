@@ -46,7 +46,7 @@ const navigatorOption = () => ({
 });
 const TabsScreen = () => (
   <Tab.Navigator
-    initialRouteName={screenNames.Contacts}
+    initialRouteName={screenNames.Map}
     screenOptions={{
       tabBarActiveTintColor: colors.selectedPrimaryColor,
       tabBarShowLabel: true,

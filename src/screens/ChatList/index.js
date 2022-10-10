@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   Button,
-  Text
+  Text,
 } from 'react-native';
 import io from 'socket.io-client';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -18,7 +18,7 @@ import {push, screenNames} from 'navigation';
 import {timeSince, getUserInfo} from 'utils';
 import Style from './style';
 import {getMessages, removeThread} from './apis';
-import Config from "react-native-config";
+import Config from 'react-native-config';
 const row = [];
 let prevOpenedRow;
 const ChatList = ({navigation}) => {
@@ -221,12 +221,11 @@ const ChatList = ({navigation}) => {
     <View style={Style.container}>
       <View style={Style.headerContainer}>
         <Typography style={Style.chatText} text={strings('chatScreen.chats')} />
-        <TouchableOpacity 
+        {/* <TouchableOpacity
           onPress={() => push(screenNames.Map)}
-          activeOpacity={1}
-        >
-          <Typography style={Style.mapIcon} text={'Open Map'}/>
-        </TouchableOpacity>
+          activeOpacity={1}>
+          <Typography style={Style.mapIcon} text={'Open Map'} />
+        </TouchableOpacity> */}
       </View>
       <View style={Style.searchView}>
         <Image

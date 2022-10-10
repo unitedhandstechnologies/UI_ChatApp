@@ -18,6 +18,17 @@ const styles = StyleSheet.create({
     marginTop: scaleSize(30),
     marginHorizontal: scaleSize(20),
   },
+  mapIcon: {
+    fontSize: scaleFont(14),
+    fontWeight: 'bold',
+    marginTop: scaleSize(40),
+    marginHorizontal: scaleSize(20),
+    color: 'blue',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   searchInput: {
     width: '100%',
     height: scaleSize(54),

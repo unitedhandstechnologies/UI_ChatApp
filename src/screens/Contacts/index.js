@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import {strings} from 'locales/i18n';
-import {navigate, screenNames} from 'navigation';
+import {navigate, screenNames, push} from 'navigation';
 import {colors} from 'theme';
 import {useDebounceCallback} from 'hooks';
 import {Wrapper, Typography, InitialNameAvatar, Loader} from 'components';
@@ -89,7 +89,14 @@ const Contacts = ({navigation}) => {
   );
   return (
     <Wrapper subContainerStyle={Style.container}>
-      <Typography style={Style.chatText} text={strings('contacts.contact')} />
+      <View style={Style.headerContainer}>
+        <Typography style={Style.chatText} text={strings('contacts.contact')} />
+        <TouchableOpacity
+          onPress={() => push(screenNames.Map)}
+          activeOpacity={1}>
+          <Typography style={Style.mapIcon} text={'Open Map'} />
+        </TouchableOpacity>
+      </View>
       <View style={Style.searchView}>
         <Image
           style={Style.searchIcon}
