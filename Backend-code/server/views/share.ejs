@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Share User Profile</title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+	</head>
+
+	<body>
+		<h1>Please Wait .....</h1>
+	</body>
+</html>
+
+<script>
+	window.onload = function () {
+		var AppURL = 'myUniqueScheme://myapp';
+		var DownloadURL = 'http://myapp.com/download';
+		if (
+			navigator.userAgent.match(/Android/) ||
+			navigator.userAgent.match(/Chrome/)
+		) {
+			window.location.href =
+				'intent://myapp/#Intent;scheme=myUniqueScheme;package=com.msq;id=<%= id %>;end';
+			setTimeout(function () {
+				var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+				if (/android/i.test(userAgent)) {
+					window.location.href = 'market://details?id=com.msq&hl=en';
+				} else {
+					window.location.href =
+						'https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.msq';
+				}
+			}, 2000);
+			return false;
+		}
+		window.location.href = 'Huakai://<%= id %>';
+		if (window.navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.match(/Safari/)) {
+			window.location.href = 'Huakai://com.app.huakai/<%= id %>';
+			setTimeout(function () {
+				var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+				if (/iphone/i.test(userAgent)) {
+					window.location.href = 'Huakai://<%= id %>';
+				} else {
+					window.location.href =
+						'https://www.apple.com/in/app-store/';
+				}
+				if (window.navigator.standalone == true) {
+				window.location.href = 'Huakai://<%= id %>';
+				} else {
+					window.location.href =
+							'https://www.apple.com/in/app-store/';
+					//  document.write("please save this to your home screen");
+				}
+			}, 2000);
+			
+		} else {
+			window.location.href = 'Huakai://<%= id %>';
+			setTimeout(() => {
+				window.location.href =
+				'https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.msq';
+			},2000);
+		}
+	};
+</script>
