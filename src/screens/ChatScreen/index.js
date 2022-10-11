@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ToastAndroid,
   Linking,
+  ScrollView,
 } from 'react-native';
 import PushNotificationFCM from 'react-native-push-notification';
 import io from 'socket.io-client';
@@ -25,7 +26,7 @@ import {getMessages, sendMessage, readAllMessage} from './apis';
 import Style from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Config from 'react-native-config';
-
+import {TypingAnimation} from 'react-native-typing-animation';
 const ChatScreen = ({navigation}) => {
   const socketRef = useRef();
   const interval = useRef(null);
@@ -34,7 +35,18 @@ const ChatScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [chatList, setChatList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
+  const [selectedMediaUri, setSelectedMediaUri] = useState(null);
+  console.log(selectedMediaUri, '----------selectedMediaUri-------------');
+
+  const _onImageChange = useCallback(
+    ({nativeEvent}) => {
+      const {uri, linkUri} = nativeEvent;
+
+      setSelectedMediaUri(linkUri ?? uri);
+    },
+    [setSelectedMediaUri],
+  );
   useEffect(() => {
     const backAction = () => {
       navigation.goBack();
@@ -280,6 +292,15 @@ const ChatScreen = ({navigation}) => {
               style={Style.typing}
               text={strings('chatScreen.typing')}
             />
+            // <TypingAnimation
+            //   dotColor="black"
+            //   dotMargin={3}
+            //   dotAmplitude={3}
+            //   dotSpeed={0.15}
+            //   dotRadius={2.5}
+            //   dotX={12}
+            //   dotY={6}
+            // />
           )}
         </View>
 
@@ -309,6 +330,11 @@ const ChatScreen = ({navigation}) => {
             <MessageItem key={item?.id} index={index} item={item} />
           )}
         />
+        <View style={Style.mediaContainer}>
+          {selectedMediaUri && (
+            <Image source={{uri: selectedMediaUri}} style={Style.image} />
+          )}
+        </View>
         <View style={Style.inputView}>
           <TextInput
             placeholderTextColor={colors.placeholderColor}
@@ -320,6 +346,7 @@ const ChatScreen = ({navigation}) => {
             value={message}
             multiline
             onChangeText={onTextChange}
+            onImageChange={_onImageChange}
           />
           <TouchableOpacity
             onPress={sendMessageToUser}
@@ -332,6 +359,29 @@ const ChatScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+      {/* <SafeAreaView style={Style.container}>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={Style.scrollViewContent}
+          style={Style.scrollView}>
+          <View style={Style.body}>
+            <View style={Style.mediaContainer}>
+              {selectedMediaUri && (
+                <Image source={{uri: selectedMediaUri}} style={Style.image} />
+              )}
+            </View>
+            <TextInput
+              // @ts-expect-error module augmentations have issues with deep links
+              onImageChange={_onImageChange}
+              placeholder={Platform.select({
+                ios: 'Try to paste an image!',
+                android: 'Try to use a GIF from your keyboard!',
+              })}
+              onChangeText={onTextChange}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView> */}
     </SafeAreaView>
   );
 };

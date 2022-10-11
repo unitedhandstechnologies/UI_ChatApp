@@ -112,6 +112,27 @@ const styles = StyleSheet.create({
   paddingText: {
     height: scaleSize(50),
   },
+  scrollView: {
+    backgroundColor: 'red',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+  mediaContainer: {
+    // flex: 1,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+  body: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+  },
 });
 
 export default styles;
