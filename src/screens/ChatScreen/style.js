@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
   messageRightText: {
     color: 'black',
   },
+  giphyIconView: {
+    justifyContent: 'center',
+    paddingHorizontal: scaleSize(12),
+    paddingRight: scaleFont(18),
+  },
   MessageText: {
     fontSize: scaleFont(15),
     color: white,

@@ -372,7 +372,15 @@ const ChatScreen = ({navigation}) => {
         </View>
 
         <View style={Style.inputView}>
-          <Button title="gif" onPress={() => GiphyDialog.show()} />
+          <TouchableOpacity
+            onPress={() => GiphyDialog.show()}
+            style={Style.giphyIconView}>
+            <Image
+              resizeMode="contain"
+              style={Style.sendMessage}
+              source={require('../../../assets/images/Giphy.png')}
+            />
+          </TouchableOpacity>
           {media && (
             <ScrollView
               style={{
