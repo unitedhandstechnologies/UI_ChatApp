@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\drawable_rn_edit_text_material.xml.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\drawable\\rn_edit_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\build\\intermediates\\res\\merged\\staging\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\lohid\\Videos\\DeliveryApp\\UI_ChatApp\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    }
+]

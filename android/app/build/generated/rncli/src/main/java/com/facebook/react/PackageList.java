@@ -11,6 +11,8 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @giphy/react-native-sdk
+import com.giphyreactnativesdk.GiphyReactNativeSdkPackage;
 // @notifee/react-native
 import io.invertase.notifee.NotifeePackage;
 // @react-native-async-storage/async-storage
@@ -41,6 +43,8 @@ import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-crop-picker
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
+// react-native-image-keyboard
+import com.rnimagekeyboard.MediaInputPackage;
 // react-native-keychain
 import com.oblador.keychain.KeychainPackage;
 // react-native-maps
@@ -102,6 +106,7 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new GiphyReactNativeSdkPackage(),
       new NotifeePackage(),
       new AsyncStoragePackage(),
       new ClipboardPackage(),
@@ -110,13 +115,14 @@ public class PackageList {
       new NetInfoPackage(),
       new ReactNativeFirebaseAppPackage(),
       new ReactNativeFirebaseMessagingPackage(),
-      new CodePush(getResources().getString(com.kottenance.production.R.string.CodePushDeploymentKey), getApplicationContext(), com.kottenance.production.BuildConfig.DEBUG),
+      new CodePush(getResources().getString(com.kottenance.R.string.CodePushDeploymentKey), getApplicationContext(), com.kottenance.BuildConfig.DEBUG),
       new ReactNativeConfigPackage(),
       new ReactNativeContacts(),
       new RNEncryptedStoragePackage(),
       new RNFusedLocationPackage(),
       new RNGestureHandlerPackage(),
       new PickerPackage(),
+      new MediaInputPackage(),
       new KeychainPackage(),
       new MapsPackage(),
       new ReactNativePushNotificationPackage(),
