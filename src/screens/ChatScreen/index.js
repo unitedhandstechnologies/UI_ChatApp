@@ -11,6 +11,8 @@ import {
   ToastAndroid,
   Linking,
   ScrollView,
+  Text,
+  Button,
 } from 'react-native';
 import PushNotificationFCM from 'react-native-push-notification';
 import io from 'socket.io-client';
@@ -27,6 +29,24 @@ import Style from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Config from 'react-native-config';
 import {TypingAnimation} from 'react-native-typing-animation';
+import {
+  GiphyContentType,
+  GiphyDialog,
+  GiphyDialogEvent,
+  GiphyDialogMediaSelectEventHandler,
+  GiphyMedia,
+  GiphySDK,
+  GiphyVideoManager,
+  GiphyVideoView,
+} from '@giphy/react-native-sdk';
+// Configure API keys
+GiphySDK.configure({apiKey: 'P62zDVOOjYRf3L4bxzl8HHZQKGLngkyg'});
+
+GiphyDialog.configure({
+  mediaTypeConfig: [GiphyContentType.Clips],
+  showConfirmationScreen: true,
+});
+
 const ChatScreen = ({navigation}) => {
   const socketRef = useRef();
   const interval = useRef(null);
@@ -38,7 +58,9 @@ const ChatScreen = ({navigation}) => {
   const [isTyping, setIsTyping] = useState(true);
   const [selectedMediaUri, setSelectedMediaUri] = useState(null);
   console.log(selectedMediaUri, '----------selectedMediaUri-------------');
-
+  const [giphy, setGiphy] = useState(false);
+  const [media, setMedia] = useState(null);
+  const [customDialogVisible, setCustomDialogVisible] = useState(false);
   const _onImageChange = useCallback(
     ({nativeEvent}) => {
       const {uri, linkUri} = nativeEvent;
@@ -47,6 +69,19 @@ const ChatScreen = ({navigation}) => {
     },
     [setSelectedMediaUri],
   );
+  useEffect(() => {
+    const handler = e => {
+      setMedia(e.media);
+      GiphyDialog.hide();
+    };
+    const listener = GiphyDialog.addListener(
+      GiphyDialogEvent.MediaSelected,
+      handler,
+    );
+    return () => {
+      listener.remove();
+    };
+  }, []);
   useEffect(() => {
     const backAction = () => {
       navigation.goBack();
@@ -335,7 +370,25 @@ const ChatScreen = ({navigation}) => {
             <Image source={{uri: selectedMediaUri}} style={Style.image} />
           )}
         </View>
+
         <View style={Style.inputView}>
+          <Button title="gif" onPress={() => GiphyDialog.show()} />
+          {media && (
+            <ScrollView
+              style={{
+                aspectRatio: media.aspectRatio,
+                maxHeight: 50,
+                padding: 14,
+                width: '20%',
+              }}>
+              <GiphyVideoView
+                media={media}
+                muted={false}
+                autoPlay={true}
+                style={{aspectRatio: media.aspectRatio}}
+              />
+            </ScrollView>
+          )}
           <TextInput
             placeholderTextColor={colors.placeholderColor}
             style={[
@@ -359,29 +412,6 @@ const ChatScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-      {/* <SafeAreaView style={Style.container}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerStyle={Style.scrollViewContent}
-          style={Style.scrollView}>
-          <View style={Style.body}>
-            <View style={Style.mediaContainer}>
-              {selectedMediaUri && (
-                <Image source={{uri: selectedMediaUri}} style={Style.image} />
-              )}
-            </View>
-            <TextInput
-              // @ts-expect-error module augmentations have issues with deep links
-              onImageChange={_onImageChange}
-              placeholder={Platform.select({
-                ios: 'Try to paste an image!',
-                android: 'Try to use a GIF from your keyboard!',
-              })}
-              onChangeText={onTextChange}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView> */}
     </SafeAreaView>
   );
 };

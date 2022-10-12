@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.1",
+    "@giphy/react-native-sdk": "^1.11.1",
     "@notifee/react-native": "^5.5.0",
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-clipboard/clipboard": "^1.10.0",
@@ -38,10 +39,10 @@
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.25.0",
     "i18n-js": "^3.8.0",
-    
+    "jetifier": "^2.0.0",
     "lodash.memoize": "^4.1.2",
     "react": "17.0.2",
-    "react-native": "^0.67.2",
+    "react-native": "0.68.2",
     "react-native-code-push": "^7.0.4",
     "react-native-config": "^1.4.6",
     "react-native-contacts": "^7.0.4",
@@ -93,7 +94,6 @@
     "redux-mock-store": "^1.5.4",
     "standard-version": "^9.3.2"
   },
-  
   "jest": {
     "preset": "react-native",
     "roots": [
