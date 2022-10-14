@@ -37,7 +37,10 @@ import {
   GiphyMedia,
   GiphySDK,
   GiphyVideoManager,
+  GiphyContent,
+  GiphyGridView,
   GiphyVideoView,
+  GiphyMediaView,
 } from '@giphy/react-native-sdk';
 // Configure API keys
 GiphySDK.configure({apiKey: 'P62zDVOOjYRf3L4bxzl8HHZQKGLngkyg'});
@@ -57,31 +60,35 @@ const ChatScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isTyping, setIsTyping] = useState(true);
   const [selectedMediaUri, setSelectedMediaUri] = useState(null);
-  console.log(selectedMediaUri, '----------selectedMediaUri-------------');
-  const [giphy, setGiphy] = useState(false);
   const [media, setMedia] = useState(null);
+  const [mediagif, setMediagif] = useState(false);
   const [customDialogVisible, setCustomDialogVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  console.log(media, 'mediatest');
+  console.log(chatList, 'redner');
   const _onImageChange = useCallback(
     ({nativeEvent}) => {
       const {uri, linkUri} = nativeEvent;
-
       setSelectedMediaUri(linkUri ?? uri);
     },
     [setSelectedMediaUri],
   );
-  useEffect(() => {
-    const handler = e => {
-      setMedia(e.media);
-      GiphyDialog.hide();
-    };
-    const listener = GiphyDialog.addListener(
-      GiphyDialogEvent.MediaSelected,
-      handler,
-    );
-    return () => {
-      listener.remove();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handler = e => {
+  //     setMedia(e.media);
+  //     console.log(e.media.data.url, 'ttttt');
+  //     setMediagif(e.media.data.url);
+  //     GiphyDialog.hide();
+  //   };
+  //   const listener = GiphyDialog.addListener(
+  //     GiphyDialogEvent.MediaSelected,
+  //     handler,
+  //   );
+  //   return () => {
+  //     listener.remove();
+  //   };
+  // }, []);
+
   useEffect(() => {
     const backAction = () => {
       navigation.goBack();
@@ -98,7 +105,7 @@ const ChatScreen = ({navigation}) => {
   const getAllMessages = useCallback(
     async (isShowLoading = true) => {
       setLoading(isShowLoading);
-      const {senderId, receiverId} = params?.threadInfo;
+      const {senderId, receiverId, messageType} = params?.threadInfo;
       const info = await getUserInfo();
       getMessages(senderId === info?.id ? receiverId : senderId)
         .then(({data}) => {
@@ -191,6 +198,7 @@ const ChatScreen = ({navigation}) => {
   const onTextChange = useCallback(
     async value => {
       setMessage(value);
+
       if (socketRef.current) {
         if (interval.current !== null) {
           clearInterval(interval.current);
@@ -226,23 +234,92 @@ const ChatScreen = ({navigation}) => {
     );
   }, []);
   const sendMessageToUser = () => {
+    setMediagif(false);
     if (!message) {
       return;
     }
     const chatCopy = JSON.parse(JSON.stringify(chatList));
     let newMessage = message;
     chatCopy.unshift({
-      message,
+      message: newMessage,
       created: Math.round(new Date() / 1000),
       modified: Math.round(new Date() / 1000),
       threadId: params?.threadInfo?.threadId ?? 0,
       senderId: userInfo?.id,
+      messageType: 0,
     });
     setChatList(chatCopy);
     setMessage('');
     const {senderId, receiverId} = params?.threadInfo;
     sendMessage({
       message: newMessage,
+      messageType: 0,
+      friendId: senderId === userInfo?.id ? receiverId : senderId,
+    })
+      .then(({data}) => {
+        if (data && !params?.threadInfo?.threadId) {
+          params.threadInfo.threadId = data.threadId;
+        }
+        setTimeout(() => {
+          setChatList(chatInfo => {
+            const chatCopy1 = JSON.parse(JSON.stringify(chatInfo));
+            chatCopy1[0].id = data.id;
+            chatCopy1[0].created = data.created;
+            return chatCopy1;
+          });
+        }, 100);
+      })
+      .catch(error => {
+        Alert.alert(
+          strings('alert.warning'),
+          error?.message ?? strings('alert.somethingWentWrong'),
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  // const sendImage = useCallback(e => {
+  //   setMedia(e.nativeEvent.media.url);
+  //   if (socketRef.current) {
+  //     if (interval.current !== null) {
+  //       clearInterval(interval.current);
+  //     }
+  //     const {senderId, receiverId} = params?.threadInfo;
+  //     const bordCastUser = senderId === userInfo?.id ? receiverId : senderId;
+  //     socketRef.current.emit('typing', {
+  //       typing: true,
+  //       friendId: bordCastUser,
+  //     });
+  //     interval.current = setTimeout(() => {
+  //       socketRef.current.emit('typing', {
+  //         typing: false,
+  //         friendId: bordCastUser,
+  //       });
+  //     }, 1000);
+  //   }
+  // }, []);
+  const sendImageToUser = e => {
+    console.log('called');
+    setMediagif(false);
+    setMedia(e.nativeEvent.media.url);
+    const chatCopy = JSON.parse(JSON.stringify(chatList));
+
+    let newMessage = media;
+    chatCopy.unshift({
+      message: newMessage,
+      created: Math.round(new Date() / 1000),
+      modified: Math.round(new Date() / 1000),
+      threadId: params?.threadInfo?.threadId ?? 0,
+      senderId: userInfo?.id,
+      messageType: 1,
+    });
+    setChatList(chatCopy);
+    setMessage('');
+    const {senderId, receiverId} = params?.threadInfo;
+    sendMessage({
+      message: newMessage,
+      messageType: 1,
       friendId: senderId === userInfo?.id ? receiverId : senderId,
     })
       .then(({data}) => {
@@ -287,15 +364,31 @@ const ChatScreen = ({navigation}) => {
     const sender = item?.senderId === userInfo.id;
     return (
       <View style={Style.message} key={item?.id}>
-        <TouchableOpacity
-          onPress={() => openUrl(item?.message)}
-          onLongPress={() => copyMessage(item?.message)}
-          style={[Style.messageBoxView, !sender && Style.messageBoxRightView]}>
-          <Typography
-            style={[Style.MessageText, !sender && Style.messageRightText]}
-            text={item?.message ?? item?.text}
-          />
-        </TouchableOpacity>
+        {item?.messageType === 0 && (
+          <TouchableOpacity
+            onPress={() => openUrl(item?.message)}
+            onLongPress={() => copyMessage(item?.message)}
+            style={[
+              Style.messageBoxView,
+              !sender && Style.messageBoxRightView,
+            ]}>
+            <Typography
+              style={[Style.MessageText, !sender && Style.messageRightText]}
+              text={item?.message ?? item?.text}
+            />
+          </TouchableOpacity>
+        )}
+        {item?.messageType === 1 && (
+          <View style={Style.message}>
+            <Image
+              source={{
+                uri: item?.message,
+              }}
+              style={[Style.imageLeft, !sender && Style.imageRight]}
+            />
+          </View>
+        )}
+
         <Typography
           style={[Style.messageTime, !sender && Style.messageTimeRight]}
           text={timeSince(item?.created * 1000, true)}
@@ -373,7 +466,7 @@ const ChatScreen = ({navigation}) => {
 
         <View style={Style.inputView}>
           <TouchableOpacity
-            onPress={() => GiphyDialog.show()}
+            onPress={() => setMediagif(true)}
             style={Style.giphyIconView}>
             <Image
               resizeMode="contain"
@@ -381,22 +474,7 @@ const ChatScreen = ({navigation}) => {
               source={require('../../../assets/images/Giphy.png')}
             />
           </TouchableOpacity>
-          {media && (
-            <ScrollView
-              style={{
-                aspectRatio: media.aspectRatio,
-                maxHeight: 50,
-                padding: 14,
-                width: '20%',
-              }}>
-              <GiphyVideoView
-                media={media}
-                muted={false}
-                autoPlay={true}
-                style={{aspectRatio: media.aspectRatio}}
-              />
-            </ScrollView>
-          )}
+
           <TextInput
             placeholderTextColor={colors.placeholderColor}
             style={[
@@ -409,6 +487,7 @@ const ChatScreen = ({navigation}) => {
             onChangeText={onTextChange}
             onImageChange={_onImageChange}
           />
+
           <TouchableOpacity
             onPress={sendMessageToUser}
             style={Style.sendIconView}>
@@ -419,9 +498,91 @@ const ChatScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
+        {mediagif && (
+          <View>
+            <TextInput
+              autoFocus
+              onChangeText={setSearchQuery}
+              placeholder="Search Giphy GIF"
+              value={searchQuery}
+            />
+            <GiphyGridView
+              content={GiphyContent.search({searchQuery: searchQuery})}
+              cellPadding={3}
+              style={{height: 300, marginTop: 24}}
+              onMediaSelect={e => sendImageToUser(e)}
+            />
+          </View>
+        )}
+        {/* {media && (
+        <ScrollView
+          style={{
+            aspectRatio: media.aspectRatio,
+            maxHeight: 400,
+            padding: 24,
+            width: '100%',
+          }}
+        >
+          <GiphyMediaView
+            media={media}
+            style={{ aspectRatio: media.aspectRatio }}
+          />
+        </ScrollView>
+      )} */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 export default ChatScreen;
+
+// import React, { useState } from 'react'
+// import { SafeAreaView, TextInput, ScrollView } from 'react-native'
+// import {
+//   GiphyContent,
+//   GiphyGridView,
+//   GiphyMedia,
+//   GiphyMediaView,
+//   GiphySDK,
+// } from '@giphy/react-native-sdk'
+
+// // Configure API keys
+// GiphySDK.configure({ apiKey: 'P62zDVOOjYRf3L4bxzl8HHZQKGLngkyg' })
+
+// export default function ChatScreen() {
+//   const [searchQuery, setSearchQuery] = useState('')
+//   const [media, setMedia] = useState(null)
+
+//   return (
+//     <SafeAreaView>
+//       <TextInput
+//         autoFocus
+//         onChangeText={setSearchQuery}
+//         placeholder="Search..."
+//         value={searchQuery}
+//       />
+//       <GiphyGridView
+//         content={GiphyContent.search({ searchQuery: searchQuery })}
+//         cellPadding={3}
+//         style={{ height: 300, marginTop: 24 }}
+//         onMediaSelect={(e) =>
+//          console.log(e.nativeEvent,'hi')}
+//       />
+//       {media && (
+//         <ScrollView
+//           style={{
+//             aspectRatio: media.aspectRatio,
+//             maxHeight: 400,
+//             padding: 24,
+//             width: '100%',
+//           }}
+//         >
+//           <GiphyMediaView
+//             media={media}
+//             style={{ aspectRatio: media.aspectRatio }}
+//           />
+//         </ScrollView>
+//       )}
+//     </SafeAreaView>
+//   )
+// }

@@ -114,6 +114,16 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(15),
     color: white,
   },
+  imageRight: {
+    width: 200,
+    height: 200,
+    marginLeft: 10,
+  },
+  imageLeft: {
+    width: 200,
+    height: 200,
+    marginLeft: 110,
+  },
   paddingText: {
     height: scaleSize(50),
   },

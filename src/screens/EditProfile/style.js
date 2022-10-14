@@ -71,6 +71,10 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     color: black,
   },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+  },
 });
 
 export default styles;
