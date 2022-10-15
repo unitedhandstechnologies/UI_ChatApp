@@ -60,12 +60,11 @@ const ChatScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isTyping, setIsTyping] = useState(true);
   const [selectedMediaUri, setSelectedMediaUri] = useState(null);
-  const [media, setMedia] = useState(null);
+  // const [media, setMedia] = useState();
   const [mediagif, setMediagif] = useState(false);
   const [customDialogVisible, setCustomDialogVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  console.log(media, 'mediatest');
-  console.log(chatList, 'redner');
+
   const _onImageChange = useCallback(
     ({nativeEvent}) => {
       const {uri, linkUri} = nativeEvent;
@@ -300,12 +299,12 @@ const ChatScreen = ({navigation}) => {
   //   }
   // }, []);
   const sendImageToUser = e => {
-    console.log('called');
     setMediagif(false);
-    setMedia(e.nativeEvent.media.url);
+    // setMedia(e.nativeEvent.media.url);
+    // let message1 = e.nativeEvent.media.url;
     const chatCopy = JSON.parse(JSON.stringify(chatList));
 
-    let newMessage = media;
+    let newMessage = e.nativeEvent.media.url;
     chatCopy.unshift({
       message: newMessage,
       created: Math.round(new Date() / 1000),
