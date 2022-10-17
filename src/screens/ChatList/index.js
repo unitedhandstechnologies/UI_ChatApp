@@ -198,7 +198,7 @@ const ChatList = ({navigation}) => {
                     <View style={Style.unReadCount}>
                       <Typography
                         style={Style.unreadMessageText}
-                        // text={item?.unReadMessage}
+                        text={item?.unReadMessage}
                       />
                     </View>
                   )}

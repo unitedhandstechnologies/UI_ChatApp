@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {View, TextInput, Alert, Text} from 'react-native';
+import {View, TextInput, Alert} from 'react-native';
 import {Wrapper, Typography, Avatar, Button, Loader} from 'components';
 import {goBack} from 'navigation';
 import {colors} from 'theme';
@@ -13,11 +13,13 @@ const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [useImage, setUserImage] = useState(null);
   const [userName, setUserName] = useState('');
+  const [userPhone, setPhone] = useState('');
   useEffect(() => {
     const getInfo = async () => {
       const info = await getUserInfo();
       setUserInfo(info);
       setUserName(info?.name);
+      setPhone(info?.phone);
     };
     getInfo();
   }, []);
@@ -31,6 +33,7 @@ const EditProfile = () => {
     setLoading(true);
     const form = new FormData();
     form.append('name', userName);
+    form.append('phone', userPhone);
     if (useImage) {
       form.append('profile', useImage);
     }
@@ -48,7 +51,7 @@ const EditProfile = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [userName, useImage]);
+  }, [userName, userPhone, useImage]);
   return (
     <Wrapper subContainerStyle={Style.container}>
       <View style={Style.upperView}>
@@ -81,13 +84,23 @@ const EditProfile = () => {
             style={Style.label}
             text={strings('signup.phoneNumber')}
           />
-          <View style={Style.countryView}>
+          {/* <View style={Style.countryView}>
             <View style={Style.country}>
               <Text style={Style.countryCode}>
                 +{userInfo.countryCode} {userInfo.phone}
               </Text>
             </View>
-          </View>
+          </View> */}
+          <TextInput
+            placeholderTextColor={colors.placeholderColor}
+            autoFocus
+            keyboardType="numeric"
+            maxLength={13}
+            style={Style.inputText}
+            // placeholder={userInfo.phone}
+            value={userPhone}
+            onChangeText={setPhone}
+          />
         </View>
         <Button
           titleStyle={Style.buttonText}

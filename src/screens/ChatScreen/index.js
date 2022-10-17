@@ -60,9 +60,7 @@ const ChatScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState({});
   const [isTyping, setIsTyping] = useState(true);
   const [selectedMediaUri, setSelectedMediaUri] = useState(null);
-  // const [media, setMedia] = useState();
-  const [mediagif, setMediagif] = useState(false);
-  const [customDialogVisible, setCustomDialogVisible] = useState(false);
+  const [mediaGif, setMediaGif] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const _onImageChange = useCallback(
@@ -72,21 +70,6 @@ const ChatScreen = ({navigation}) => {
     },
     [setSelectedMediaUri],
   );
-  // useEffect(() => {
-  //   const handler = e => {
-  //     setMedia(e.media);
-  //     console.log(e.media.data.url, 'ttttt');
-  //     setMediagif(e.media.data.url);
-  //     GiphyDialog.hide();
-  //   };
-  //   const listener = GiphyDialog.addListener(
-  //     GiphyDialogEvent.MediaSelected,
-  //     handler,
-  //   );
-  //   return () => {
-  //     listener.remove();
-  //   };
-  // }, []);
 
   useEffect(() => {
     const backAction = () => {
@@ -104,7 +87,7 @@ const ChatScreen = ({navigation}) => {
   const getAllMessages = useCallback(
     async (isShowLoading = true) => {
       setLoading(isShowLoading);
-      const {senderId, receiverId, messageType} = params?.threadInfo;
+      const {senderId, receiverId} = params?.threadInfo;
       const info = await getUserInfo();
       getMessages(senderId === info?.id ? receiverId : senderId)
         .then(({data}) => {
@@ -151,7 +134,7 @@ const ChatScreen = ({navigation}) => {
       }
     };
     const activeScreenListener = navigation.addListener('focus', async () => {
-      socketRef.current.emit('ConncetedThread', params?.threadInfo?.threadId);
+      socketRef.current.emit('ConnectedThread', params?.threadInfo?.threadId);
       clearNotification();
     });
     if (socketRef.current) {
@@ -196,22 +179,23 @@ const ChatScreen = ({navigation}) => {
   }, []);
   const onTextChange = useCallback(
     async value => {
+      // eslint-disable-next-line no-console
+      console.log(value, '---------------value-----------------');
       setMessage(value);
-
       if (socketRef.current) {
         if (interval.current !== null) {
           clearInterval(interval.current);
         }
         const {senderId, receiverId} = params?.threadInfo;
-        const bordCastUser = senderId === userInfo?.id ? receiverId : senderId;
+        const boardCastUser = senderId === userInfo?.id ? receiverId : senderId;
         socketRef.current.emit('typing', {
           typing: true,
-          friendId: bordCastUser,
+          friendId: boardCastUser,
         });
         interval.current = setTimeout(() => {
           socketRef.current.emit('typing', {
             typing: false,
-            friendId: bordCastUser,
+            friendId: boardCastUser,
           });
         }, 1000);
       }
@@ -233,7 +217,7 @@ const ChatScreen = ({navigation}) => {
     );
   }, []);
   const sendMessageToUser = () => {
-    setMediagif(false);
+    setMediaGif(false);
     if (!message) {
       return;
     }
@@ -299,7 +283,7 @@ const ChatScreen = ({navigation}) => {
   //   }
   // }, []);
   const sendImageToUser = e => {
-    setMediagif(false);
+    setMediaGif(false);
     // setMedia(e.nativeEvent.media.url);
     // let message1 = e.nativeEvent.media.url;
     const chatCopy = JSON.parse(JSON.stringify(chatList));
@@ -465,7 +449,7 @@ const ChatScreen = ({navigation}) => {
 
         <View style={Style.inputView}>
           <TouchableOpacity
-            onPress={() => setMediagif(true)}
+            onPress={() => setMediaGif(true)}
             style={Style.giphyIconView}>
             <Image
               resizeMode="contain"
@@ -497,7 +481,7 @@ const ChatScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-        {mediagif && (
+        {mediaGif && (
           <View>
             <TextInput
               autoFocus
@@ -513,75 +497,9 @@ const ChatScreen = ({navigation}) => {
             />
           </View>
         )}
-        {/* {media && (
-        <ScrollView
-          style={{
-            aspectRatio: media.aspectRatio,
-            maxHeight: 400,
-            padding: 24,
-            width: '100%',
-          }}
-        >
-          <GiphyMediaView
-            media={media}
-            style={{ aspectRatio: media.aspectRatio }}
-          />
-        </ScrollView>
-      )} */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 export default ChatScreen;
-
-// import React, { useState } from 'react'
-// import { SafeAreaView, TextInput, ScrollView } from 'react-native'
-// import {
-//   GiphyContent,
-//   GiphyGridView,
-//   GiphyMedia,
-//   GiphyMediaView,
-//   GiphySDK,
-// } from '@giphy/react-native-sdk'
-
-// // Configure API keys
-// GiphySDK.configure({ apiKey: 'P62zDVOOjYRf3L4bxzl8HHZQKGLngkyg' })
-
-// export default function ChatScreen() {
-//   const [searchQuery, setSearchQuery] = useState('')
-//   const [media, setMedia] = useState(null)
-
-//   return (
-//     <SafeAreaView>
-//       <TextInput
-//         autoFocus
-//         onChangeText={setSearchQuery}
-//         placeholder="Search..."
-//         value={searchQuery}
-//       />
-//       <GiphyGridView
-//         content={GiphyContent.search({ searchQuery: searchQuery })}
-//         cellPadding={3}
-//         style={{ height: 300, marginTop: 24 }}
-//         onMediaSelect={(e) =>
-//          console.log(e.nativeEvent,'hi')}
-//       />
-//       {media && (
-//         <ScrollView
-//           style={{
-//             aspectRatio: media.aspectRatio,
-//             maxHeight: 400,
-//             padding: 24,
-//             width: '100%',
-//           }}
-//         >
-//           <GiphyMediaView
-//             media={media}
-//             style={{ aspectRatio: media.aspectRatio }}
-//           />
-//         </ScrollView>
-//       )}
-//     </SafeAreaView>
-//   )
-// }
