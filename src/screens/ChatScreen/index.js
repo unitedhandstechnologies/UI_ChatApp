@@ -343,42 +343,45 @@ const ChatScreen = ({navigation}) => {
       } catch (err) {}
     }
   }, []);
-  const MessageItem = ({item, index}) => {
-    const sender = item?.senderId === userInfo.id;
-    return (
-      <View style={Style.message} key={item?.id}>
-        {item?.messageType === 0 && (
-          <TouchableOpacity
-            onPress={() => openUrl(item?.message)}
-            onLongPress={() => copyMessage(item?.message)}
-            style={[
-              Style.messageBoxView,
-              !sender && Style.messageBoxRightView,
-            ]}>
-            <Typography
-              style={[Style.MessageText, !sender && Style.messageRightText]}
-              text={item?.message ?? item?.text}
-            />
-          </TouchableOpacity>
-        )}
-        {item?.messageType === 1 && (
-          <View style={Style.message}>
-            <Image
-              source={{
-                uri: item?.message,
-              }}
-              style={[Style.imageLeft, !sender && Style.imageRight]}
-            />
-          </View>
-        )}
+  const MessageItem = useCallback(
+    ({item, index}) => {
+      const sender = item?.senderId === userInfo.id;
+      return (
+        <View style={Style.message} key={item?.id}>
+          {item?.messageType === 0 && (
+            <TouchableOpacity
+              onPress={() => openUrl(item?.message)}
+              onLongPress={() => copyMessage(item?.message)}
+              style={[
+                Style.messageBoxView,
+                !sender && Style.messageBoxRightView,
+              ]}>
+              <Typography
+                style={[Style.MessageText, !sender && Style.messageRightText]}
+                text={item?.message ?? item?.text}
+              />
+            </TouchableOpacity>
+          )}
+          {item?.messageType === 1 && (
+            <View style={Style.message}>
+              <Image
+                source={{
+                  uri: item?.message,
+                }}
+                style={[Style.imageLeft, !sender && Style.imageRight]}
+              />
+            </View>
+          )}
 
-        <Typography
-          style={[Style.messageTime, !sender && Style.messageTimeRight]}
-          text={timeSince(item?.created * 1000, true)}
-        />
-      </View>
-    );
-  };
+          <Typography
+            style={[Style.messageTime, !sender && Style.messageTimeRight]}
+            text={timeSince(item?.created * 1000, true)}
+          />
+        </View>
+      );
+    },
+    [copyMessage, openUrl, userInfo.id],
+  );
 
   return (
     <SafeAreaView style={Style.container}>
@@ -485,7 +488,7 @@ const ChatScreen = ({navigation}) => {
           <View>
             <TextInput
               autoFocus
-              onChangeText={setSearchQuery}
+              onChangeText={value => setSearchQuery(value)}
               placeholder="Search Giphy GIF"
               value={searchQuery}
             />
