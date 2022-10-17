@@ -146,6 +146,7 @@ const ChatList = ({navigation}) => {
     );
   };
   const ListItem = ({item, index}) => {
+    console.log(item, '-------item---------');
     return (
       <TouchableOpacity
         onPress={() => onChatItemClick(item)}
@@ -197,20 +198,40 @@ const ChatList = ({navigation}) => {
                     <View style={Style.unReadCount}>
                       <Typography
                         style={Style.unreadMessageText}
-                        text={item?.unReadMessage}
+                        // text={item?.unReadMessage}
                       />
                     </View>
                   )}
                 </View>
               </View>
-              <Typography
-                numberOfLines={1}
-                style={[
-                  Style.userMessage,
-                  item?.unReadMessage && Style.unreadMessage,
-                ]}
-                text={`${item?.unReadMessage ? '\u2B24' : ''} ${item?.message}`}
-              />
+              {item?.messageType === 0 && (
+                <Typography
+                  numberOfLines={1}
+                  style={[
+                    Style.userMessage,
+                    item?.unReadMessage && Style.unreadMessage,
+                  ]}
+                  text={`${item?.unReadMessage ? '\u2B24' : ''} ${
+                    item?.message
+                  }`}
+                />
+              )}
+              {item?.messageType === 1 && (
+                <View style={{flex: 1, flexDirection: 'row', marginTop: 6}}>
+                  <Image
+                    style={{width: 35, height: 20, marginLeft: 5}}
+                    source={require('../../../assets/images/GifText.png')}
+                  />
+                  <Typography
+                    numberOfLines={1}
+                    style={[
+                      Style.userMessage,
+                      item?.unReadMessage && Style.unreadMessage,
+                    ]}
+                    text={`${item?.unReadMessage ? '\u2B24' : ''} ${'GIF'}`}
+                  />
+                </View>
+              )}
             </View>
           </View>
         </Swipeable>

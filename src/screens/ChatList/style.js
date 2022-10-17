@@ -72,9 +72,10 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     fontSize: scaleFont(14),
-    marginTop: scaleFont(5),
+    marginTop: scaleFont(2),
     color: lightText,
     paddingRight: scaleSize(22),
+    marginLeft: 4,
   },
   listUpperView: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 });
 
 export default styles;
