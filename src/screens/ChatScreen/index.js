@@ -10,9 +10,8 @@ import {
   SafeAreaView,
   ToastAndroid,
   Linking,
-  ScrollView,
+  Modal,
   Text,
-  Button,
 } from 'react-native';
 import PushNotificationFCM from 'react-native-push-notification';
 import io from 'socket.io-client';
@@ -22,25 +21,20 @@ import {TextInput} from 'react-native-gesture-handler';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import {Typography, InitialNameAvatar, Loader} from 'components';
 import {strings} from 'locales/i18n';
-import {scaleSize, colors} from 'theme';
+import {colors} from 'theme';
 import {getUserInfo, timeSince, createLocalNotification} from 'utils';
 import {getMessages, sendMessage, readAllMessage} from './apis';
 import Style from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Config from 'react-native-config';
-import {TypingAnimation} from 'react-native-typing-animation';
+// import {TypingAnimation} from 'react-native-typing-animation';
+
 import {
   GiphyContentType,
   GiphyDialog,
-  GiphyDialogEvent,
-  GiphyDialogMediaSelectEventHandler,
-  GiphyMedia,
   GiphySDK,
-  GiphyVideoManager,
   GiphyContent,
   GiphyGridView,
-  GiphyVideoView,
-  GiphyMediaView,
 } from '@giphy/react-native-sdk';
 // Configure API keys
 GiphySDK.configure({apiKey: 'P62zDVOOjYRf3L4bxzl8HHZQKGLngkyg'});
@@ -62,7 +56,7 @@ const ChatScreen = ({navigation}) => {
   const [selectedMediaUri, setSelectedMediaUri] = useState(null);
   const [mediaGif, setMediaGif] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [modalVisible, setModalVisible] = useState(false);
   const _onImageChange = useCallback(
     ({nativeEvent}) => {
       const {uri, linkUri} = nativeEvent;
@@ -147,7 +141,7 @@ const ChatScreen = ({navigation}) => {
           // eslint-disable-next-line radix
           parseInt(chat?.senderId) !== parseInt(userInfo?.id)
         ) {
-          readAllMessage(chat?.id).catch(() => {});
+          readAllMessage(chat?.id).catch({});
           setChatList(chatInfo => {
             const chatCopy = JSON.parse(JSON.stringify(chatInfo));
             chatCopy.unshift(chat);
@@ -284,6 +278,7 @@ const ChatScreen = ({navigation}) => {
   // }, []);
   const sendImageToUser = e => {
     setMediaGif(false);
+    setSearchQuery('');
     // setMedia(e.nativeEvent.media.url);
     // let message1 = e.nativeEvent.media.url;
     const chatCopy = JSON.parse(JSON.stringify(chatList));
@@ -382,7 +377,9 @@ const ChatScreen = ({navigation}) => {
     },
     [copyMessage, openUrl, userInfo.id],
   );
-
+  const closeModel = useCallback(() => {
+    setModalVisible(val => !val);
+  }, []);
   return (
     <SafeAreaView style={Style.container}>
       <View style={Style.headerView}>
@@ -398,7 +395,7 @@ const ChatScreen = ({navigation}) => {
         </TouchableOpacity>
         <View style={Style.nameView}>
           <Typography
-            style={Style.userName}
+            style={Style.userName1}
             text={params?.threadInfo?.friendInfo?.name}
           />
           {isTyping && (
@@ -419,12 +416,15 @@ const ChatScreen = ({navigation}) => {
         </View>
 
         {params?.threadInfo?.friendInfo?.profile ? (
-          <Image
-            source={{uri: params?.threadInfo?.friendInfo?.profile}}
-            style={Style.userImage}
-          />
+          <TouchableOpacity onPress={closeModel}>
+            <Image
+              source={{uri: params?.threadInfo?.friendInfo?.profile}}
+              style={Style.userImage1}
+            />
+          </TouchableOpacity>
         ) : (
           <InitialNameAvatar
+            onPress={closeModel}
             containerStyle={Style.userImageAvatar}
             text={params?.threadInfo?.friendInfo?.name || 'Ab'}
           />
@@ -501,6 +501,52 @@ const ChatScreen = ({navigation}) => {
           </View>
         )}
       </KeyboardAvoidingView>
+      <Modal
+        // animationType="slide"
+        // transparent
+        visible={modalVisible}
+        style={Style.background}
+        onRequestClose={closeModel}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={closeModel}
+          style={Style.centeredView}>
+          <View style={Style.addMargin}>
+            <View style={Style.internalView}>
+              <TouchableOpacity onPress={closeModel} style={Style.iconView}>
+                <Image
+                  style={Style.crossIcon}
+                  source={require('../../../assets/images/Cross-xxhdpi.png')}
+                />
+              </TouchableOpacity>
+              <View style={Style.UserImageView}>
+                {params?.threadInfo?.friendInfo?.profile ? (
+                  <Image
+                    source={{uri: params?.threadInfo?.friendInfo?.profile}}
+                    style={Style.userImage}
+                  />
+                ) : (
+                  <InitialNameAvatar
+                    containerStyle={[
+                      Style.userImageAvatar1,
+                      Style.avatarLabelStyle,
+                    ]}
+                    text={params?.threadInfo?.friendInfo?.name || 'Ab'}
+                  />
+                )}
+              </View>
+              <Typography
+                style={Style.modalUserName}
+                text={params?.threadInfo?.friendInfo?.name}
+              />
+              <Typography
+                style={Style.modalPhone}
+                text={params?.threadInfo?.friendInfo?.phone}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 };

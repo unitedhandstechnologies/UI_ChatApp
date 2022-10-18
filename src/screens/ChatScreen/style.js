@@ -20,13 +20,24 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  userName: {
+  userName1: {
     fontWeight: '500',
     fontSize: scaleFont(16),
     marginLeft: scaleFont(16),
   },
+  modalUserName: {
+    fontWeight: '500',
+    fontSize: scaleFont(18),
+    marginLeft: scaleFont(80),
+  },
+  modalPhone: {
+    fontWeight: '500',
+    fontSize: scaleFont(18),
+    marginLeft: scaleFont(80),
+    marginBottom: 20,
+  },
   typing: {
-    fontWeight: '30',
+    fontWeight: '500',
     fontSize: scaleFont(12),
     marginLeft: scaleFont(16),
     color: blueColor,
@@ -37,7 +48,7 @@ const styles = StyleSheet.create({
     height: scaleSize(23),
     width: scaleSize(23),
   },
-  userImage: {
+  userImage1: {
     height: scaleSize(30),
     width: scaleSize(30),
     borderRadius: scaleSize(30),
@@ -47,6 +58,16 @@ const styles = StyleSheet.create({
     width: scaleSize(30),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  userImageAvatar1: {
+    height: scaleSize(90),
+    width: scaleSize(90),
+    borderRadius: scaleSize(90),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarLabelStyle: {
+    fontSize: scaleSize(30),
   },
   sendIconView: {
     justifyContent: 'center',
@@ -147,6 +168,99 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     aspectRatio: 1,
+  },
+  userImage: {
+    height: scaleSize(90),
+    width: scaleSize(90),
+    borderRadius: scaleSize(90),
+  },
+  userImagePrv: {
+    height: scaleSize(250),
+    width: '100%',
+    borderRadius: scaleSize(20),
+  },
+  upperView: {
+    flex: 0.4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: lightBlue,
+  },
+  lowerView: {
+    flex: 0.6,
+  },
+  // container: {
+  //   flex: 1,
+  // },
+  userName: {
+    marginTop: scaleSize(20),
+    fontSize: scaleSize(18),
+    fontWeight: '400',
+  },
+  listView: {
+    paddingVertical: scaleSize(20),
+    paddingHorizontal: scaleSize(25),
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  // listStyle: {
+  //   marginTop: scaleSize(40),
+  // },
+  listText: {
+    fontSize: scaleFont(16),
+  },
+  internalView: {
+    backgroundColor: white,
+    opacity: 1,
+    height: scaleSize(325),
+    width: '100%',
+    // paddingHorizontal: scaleSize(12),
+    borderRadius: 20,
+    padding: scaleSize(45),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  addMargin: {
+    marginHorizontal: scaleSize(20),
+  },
+  crossIcon: {
+    height: scaleSize(35),
+    width: scaleSize(35),
+    // marginBottom: 10,
+  },
+  iconView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+  modalView: {
+    marginHorizontal: scaleSize(10),
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  UserImageView: {
+    alignItems: 'center',
+    marginTop: scaleSize(10),
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
 });
 
