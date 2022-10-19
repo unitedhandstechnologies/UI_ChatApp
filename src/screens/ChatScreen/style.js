@@ -25,17 +25,15 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(16),
     marginLeft: scaleFont(16),
   },
-  modalUserName: {
+
+  modalUser: {
     fontWeight: '500',
     fontSize: scaleFont(18),
-    marginLeft: scaleFont(80),
+    //marginLeft: scaleFont(20),
+    color: 'black',
+    marginTop: scaleFont(14),
   },
-  modalPhone: {
-    fontWeight: '500',
-    fontSize: scaleFont(18),
-    marginLeft: scaleFont(80),
-    marginBottom: 20,
-  },
+
   typing: {
     fontWeight: '500',
     fontSize: scaleFont(12),
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
   message: {
     marginTop: scaleSize(20),
     marginBottom: scaleSize(10),
+    alignSelf: 'baseline',
   },
   inputView: {
     flexDirection: 'row',
@@ -105,18 +104,18 @@ const styles = StyleSheet.create({
   },
   messageBoxView: {
     backgroundColor: blueColor,
-    padding: scaleSize(22),
+    padding: scaleSize(10),
     borderRadius: scaleSize(60),
     borderBottomRightRadius: scaleSize(0),
     borderTopRightRadius: scaleSize(30),
-    marginLeft: scaleSize(60),
+    marginLeft: scaleSize(180),
   },
   messageTimeRight: {
     alignSelf: 'flex-start',
   },
   messageBoxRightView: {
     marginLeft: scaleSize(0),
-    marginRight: scaleSize(60),
+    //marginRight: scaleSize(60),
     backgroundColor: lightBlue,
     borderBottomRightRadius: scaleSize(60),
     borderTopRightRadius: scaleSize(60),
@@ -226,16 +225,18 @@ const styles = StyleSheet.create({
   },
   addMargin: {
     marginHorizontal: scaleSize(20),
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   crossIcon: {
-    height: scaleSize(35),
-    width: scaleSize(35),
-    // marginBottom: 10,
+    height: scaleSize(30),
+    width: scaleSize(30),
   },
   iconView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    width: '100%',
+    //width: '100%',
   },
   modalView: {
     marginHorizontal: scaleSize(10),
@@ -254,13 +255,60 @@ const styles = StyleSheet.create({
   },
   UserImageView: {
     alignItems: 'center',
-    marginTop: scaleSize(10),
+    marginTop: scaleSize(2),
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  divider: {
+    fontWeight: '700',
+    fontSize: scaleFont(20),
+  },
+  view: {
+    flex: 1,
+
+    alignItems: 'center',
+    padding: 10,
+    //backgroundColor: 'darkblue'
+  },
+
+  image: {
+    width: 150,
+    height: 150,
+    borderWidth: 2,
+    borderColor: 'lightblue',
+    resizeMode: 'contain',
+    borderRadius: 10,
+    margin: 3,
+  },
+  gifImage: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 5,
+    marginLeft: 50,
+  },
+  stickers: {
+    flexDirection: 'row',
+    marginLeft: 110,
+    paddingBottom: 10,
+  },
+  gifStickerView: {
+    width: '90%',
+    height: 40,
+    margin: 10,
+    backgroundColor: 'blue',
+    borderRadius: 20,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  stickerText: {
+    fontWeight: '500',
+    fontSize: scaleFont(20),
+    color: 'white',
   },
 });
 

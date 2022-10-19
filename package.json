@@ -46,6 +46,7 @@
     "react-native-code-push": "^7.0.4",
     "react-native-config": "^1.4.6",
     "react-native-contacts": "^7.0.4",
+    "react-native-divider": "^1.0.3",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-event-listeners": "^1.0.7",
     "react-native-geocoding": "^0.5.0",
