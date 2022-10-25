@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     fontSize: scaleFont(14),
-    marginTop: scaleFont(2),
+    marginTop: scaleFont(1),
     color: lightText,
     paddingRight: scaleSize(22),
     marginLeft: 4,
@@ -145,6 +145,32 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  profileEnlarge: {
+    backgroundColor: white,
+    opacity: 1,
+    height: scaleSize(380),
+    width: '100%',
+    // paddingHorizontal: scaleSize(12),
+    borderRadius: 20,
+    padding: scaleSize(25),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  userPicture: {
+    height: scaleSize(320),
+    width: scaleSize(310),
+    borderRadius: scaleSize(10),
+  },
+  UserImageView: {
+    alignItems: 'center',
+    marginTop: scaleSize(2),
   },
 });
 

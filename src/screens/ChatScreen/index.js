@@ -23,13 +23,14 @@ import {Typography, InitialNameAvatar, Loader} from 'components';
 import {strings} from 'locales/i18n';
 import {colors} from 'theme';
 import {getUserInfo, timeSince, createLocalNotification} from 'utils';
-import {getMessages, sendMessage, readAllMessage} from './apis';
+import {getMessages, sendMessage, readAllMessage, getAllStickers} from './apis';
 import Style from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Config from 'react-native-config';
 import Divider from 'react-native-divider';
-// import PreviewLayout from '../PreviewLayout';
-// import {TypingAnimation} from 'react-native-typing-animation';
+
+//import PreviewLayout from '../PreviewLayout';
+import {TypingAnimation} from 'react-native-typing-animation';
 
 import {
   GiphyContentType,
@@ -61,62 +62,9 @@ const ChatScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [stickers, setStickers] = useState(false);
-  const [menu, setMenu] = useState('');
+  const [stickersImg, setStickersImg] = useState([]);
+  const [profilePic, setProfile] = useState(false);
 
-  const dummyStickers = [
-    {
-      id: 1,
-      imgUrl: require('../../../assets/stickers/1.png'),
-    },
-    {
-      id: 2,
-      imgUrl: require('../../../assets/stickers/2.png'),
-    },
-    {
-      id: 3,
-      imgUrl: require('../../../assets/stickers/3.png'),
-    },
-    {
-      id: 4,
-      imgUrl: require('../../../assets/stickers/4.png'),
-    },
-    {
-      id: 5,
-      imgUrl: require('../../../assets/stickers/5.png'),
-    },
-    {
-      id: 6,
-      imgUrl: require('../../../assets/stickers/6.png'),
-    },
-    {
-      id: 7,
-      imgUrl: require('../../../assets/stickers/7.png'),
-    },
-    {
-      id: 8,
-      imgUrl: require('../../../assets/stickers/8.png'),
-    },
-    {
-      id: 9,
-      imgUrl: require('../../../assets/stickers/9.png'),
-    },
-    {
-      id: 10,
-      imgUrl: require('../../../assets/stickers/10.png'),
-    },
-    {
-      id: 11,
-      imgUrl: require('../../../assets/stickers/11.png'),
-    },
-    {
-      id: 12,
-      imgUrl: require('../../../assets/stickers/12.png'),
-    },
-    {
-      id: 13,
-      imgUrl: require('../../../assets/stickers/13.png'),
-    },
-  ];
   const _onImageChange = useCallback(
     ({nativeEvent}) => {
       const {uri, linkUri} = nativeEvent;
@@ -138,6 +86,17 @@ const ChatScreen = ({navigation}) => {
 
     return () => backHandler.remove();
   }, [navigation]);
+
+  useEffect(() => {
+    getAllStickersImg();
+    // getAllStickers()
+    //     .then(({data}) => {
+    //       if (data) {
+    //         setStickersImg(data);
+    //       }
+
+    //     })
+  }, []);
   const getAllMessages = useCallback(
     async (isShowLoading = true) => {
       setLoading(isShowLoading);
@@ -149,6 +108,31 @@ const ChatScreen = ({navigation}) => {
             params.threadInfo.threadId = data[0].threadId;
           }
           setChatList(data);
+        })
+        .catch(error => {
+          if (error?.status !== 404) {
+            Alert.alert(
+              strings('alert.warning'),
+              error?.message ?? strings('alert.somethingWentWrong'),
+            );
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [params],
+  );
+  const getAllStickersImg = useCallback(
+    async (isShowLoading = true) => {
+      setLoading(isShowLoading);
+      const {senderId, receiverId} = params?.threadInfo;
+      const info = await getUserInfo();
+      getAllStickers()
+        .then(({data}) => {
+          if (data) {
+            setStickersImg(data);
+          }
         })
         .catch(error => {
           if (error?.status !== 404) {
@@ -221,6 +205,7 @@ const ChatScreen = ({navigation}) => {
       const info = await getUserInfo();
       setUserInfo(info);
     };
+
     const activeScreenListener = navigation.addListener('focus', () => {
       getInfo();
       getAllMessages(false);
@@ -229,6 +214,7 @@ const ChatScreen = ({navigation}) => {
       activeScreenListener();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAllStickersImg();
   }, []);
   const onTextChange = useCallback(
     async value => {
@@ -271,6 +257,7 @@ const ChatScreen = ({navigation}) => {
   }, []);
   const sendMessageToUser = () => {
     setMediaGif(false);
+    setOpen(false);
     if (!message) {
       return;
     }
@@ -318,6 +305,7 @@ const ChatScreen = ({navigation}) => {
 
   const sendImageToUser = e => {
     setMediaGif(false);
+    setOpen(false);
     setSearchQuery('');
     // setMedia(e.nativeEvent.media.url);
     // let message1 = e.nativeEvent.media.url;
@@ -338,6 +326,51 @@ const ChatScreen = ({navigation}) => {
     sendMessage({
       message: newMessage,
       messageType: 1,
+      friendId: senderId === userInfo?.id ? receiverId : senderId,
+    })
+      .then(({data}) => {
+        if (data && !params?.threadInfo?.threadId) {
+          params.threadInfo.threadId = data.threadId;
+        }
+        setTimeout(() => {
+          setChatList(chatInfo => {
+            const chatCopy1 = JSON.parse(JSON.stringify(chatInfo));
+            chatCopy1[0].id = data.id;
+            chatCopy1[0].created = data.created;
+            return chatCopy1;
+          });
+        }, 100);
+      })
+      .catch(error => {
+        Alert.alert(
+          strings('alert.warning'),
+          error?.message ?? strings('alert.somethingWentWrong'),
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const sendStickersToUser = url => {
+    setStickers(false);
+    setOpen(false);
+    const chatCopy = JSON.parse(JSON.stringify(chatList));
+    let newMessage = url;
+    chatCopy.unshift({
+      message: newMessage,
+      created: Math.round(new Date() / 1000),
+      modified: Math.round(new Date() / 1000),
+      threadId: params?.threadInfo?.threadId ?? 0,
+      senderId: userInfo?.id,
+      messageType: 2,
+    });
+    setChatList(chatCopy);
+    setMessage('');
+    const {senderId, receiverId} = params?.threadInfo;
+    sendMessage({
+      message: newMessage,
+      messageType: 2,
       friendId: senderId === userInfo?.id ? receiverId : senderId,
     })
       .then(({data}) => {
@@ -407,18 +440,50 @@ const ChatScreen = ({navigation}) => {
               />
             </View>
           )}
+          {item?.messageType === 2 && (
+            <View style={Style.message}>
+              <Image
+                source={{
+                  uri: item?.message,
+                }}
+                style={[Style.imageLeft, !sender && Style.imageRight]}
+              />
+            </View>
+          )}
 
           <Typography
             style={[Style.messageTime, !sender && Style.messageTimeRight]}
             text={timeSince(item?.created * 1000, true)}
           />
+          {/* {!sender &&(<TypingAnimation
+          style={Style.typingAnimation}
+              dotColor="green"
+              dotMargin={8}
+              dotAmplitude={3}
+              dotSpeed={1.5}
+              dotRadius={4}
+              dotX={25}
+              dotY={10}
+            />)} */}
+          {/* <TypingAnimation
+            style={Style.typingAnimation}
+            dotColor="green"
+            dotMargin={8}
+            dotAmplitude={3}
+            dotSpeed={2.5}
+            dotRadius={4}
+            dotX={25}
+            dotY={10}
+          /> */}
         </View>
       );
     },
     [copyMessage, openUrl, userInfo.id],
   );
+
   const closeModel = useCallback(() => {
     setModalVisible(val => !val);
+    //setProfile(false)
   }, []);
   const gifImage = useCallback(() => {
     setMediaGif(true);
@@ -451,15 +516,6 @@ const ChatScreen = ({navigation}) => {
               style={Style.typing}
               // text={strings('chatScreen.typing')}
             />
-            // <TypingAnimation
-            //   dotColor="black"
-            //   dotMargin={3}
-            //   dotAmplitude={3}
-            //   dotSpeed={0.15}
-            //   dotRadius={2.5}
-            //   dotX={12}
-            //   dotY={6}
-            // />
           )}
         </View>
 
@@ -532,35 +588,31 @@ const ChatScreen = ({navigation}) => {
         {}
         {open && (
           <View style={Style.gifStickerView}>
-            <View style={Style.gifImage}>
-              <Text style={Style.stickerText} onPress={gifImage}>
-                GIFs
-              </Text>
-            </View>
-            <View style={Style.stickers}>
-              <Text style={Style.stickerText} onPress={stickerImage}>
-                Stickers
-              </Text>
-            </View>
+            <TouchableOpacity style={Style.gifImage} onPress={gifImage}>
+              <Text style={Style.stickerText}>GIFs </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Style.stickers} onPress={stickerImage}>
+              <Text style={Style.stickerText}>Stickers</Text>
+            </TouchableOpacity>
           </View>
-          //   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          // <View
+          //   style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           //   <PreviewLayout
-          //     label="justifyContent"
           //     selectedValue={menu}
           //     values={['GIF', 'Stickers']}
-          //     setSelectedValue={setMenu}>
-          //    onPress={}
-          //   </PreviewLayout>
+          //     setSelectedValue={setMenu}
+          //   />
           // </View>
         )}
         {stickers && (
           <View style={Style.view}>
             <FlatList
-              data={dummyStickers}
-              numColumns={2}
+              data={stickersImg}
+              numColumns={4}
               renderItem={({item}) => (
-                <TouchableOpacity onPress={() => console.log(item.id)}>
-                  <Image style={Style.image} source={item.imgUrl} />
+                <TouchableOpacity
+                  onPress={() => sendStickersToUser(item.sticker)}>
+                  <Image style={Style.image} source={{uri: item.sticker}} />
                 </TouchableOpacity>
               )}
             />
@@ -569,7 +621,6 @@ const ChatScreen = ({navigation}) => {
         {mediaGif && (
           <View>
             <TextInput
-              autoFocus
               onChangeText={value => setSearchQuery(value)}
               placeholder="Search GIFs"
               value={searchQuery}
@@ -598,15 +649,17 @@ const ChatScreen = ({navigation}) => {
             <TouchableOpacity onPress={closeModel} style={Style.iconView}>
               <Image
                 style={Style.crossIcon}
-                source={require('../../../assets/images/Cross-xxhdpi.png')}
+                source={require('../../../assets/images/CloseIcon.png')}
               />
             </TouchableOpacity>
             <View style={Style.UserImageView}>
               {params?.threadInfo?.friendInfo?.profile ? (
-                <Image
-                  source={{uri: params?.threadInfo?.friendInfo?.profile}}
-                  style={Style.userImage}
-                />
+                <TouchableOpacity onPress={() => setProfile(true)}>
+                  <Image
+                    source={{uri: params?.threadInfo?.friendInfo?.profile}}
+                    style={Style.userImage}
+                  />
+                </TouchableOpacity>
               ) : (
                 <InitialNameAvatar
                   containerStyle={[
@@ -623,12 +676,59 @@ const ChatScreen = ({navigation}) => {
             <Text style={Style.modalUser}>
               Name: {params?.threadInfo?.friendInfo?.name}
             </Text>
+
             <Text style={Style.modalUser}>
               Mobile Number: {params?.threadInfo?.friendInfo?.phone}
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL(
+                    `tel:${params?.threadInfo?.friendInfo?.phone}`,
+                  );
+                }}>
+                <Image
+                  style={Style.dailIcon}
+                  source={require('../../../assets/images/Phonecircle.png')}
+                />
+              </TouchableOpacity>
             </Text>
           </View>
         </View>
         {/* </TouchableOpacity> */}
+      </Modal>
+      <Modal
+        visible={profilePic}
+        style={Style.background}
+        onRequestClose={closeModel}>
+        <View style={Style.addMargin}>
+          <View style={Style.profileEnlarge}>
+            <View style={Style.UserImageView}>
+              <TouchableOpacity
+                onPress={() => setProfile(false)}
+                style={Style.iconView}>
+                <Image
+                  style={Style.crossIcon}
+                  source={require('../../../assets/images/CloseIcon.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setProfile(false)}>
+                {params?.threadInfo?.friendInfo?.profile ? (
+                  <Image
+                    source={{uri: params?.threadInfo?.friendInfo?.profile}}
+                    style={Style.userPicture}
+                  />
+                ) : (
+                  <InitialNameAvatar
+                    containerStyle={[
+                      Style.userImageAvatar1,
+                      Style.avatarLabelStyle,
+                    ]}
+                    text={params?.threadInfo?.friendInfo?.name || 'Ab'}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </Modal>
     </SafeAreaView>
   );

@@ -4,10 +4,11 @@ import {
   TextInput,
   Image,
   FlatList,
+  SafeAreaView,
   TouchableOpacity,
   Alert,
   Button,
-  Text,
+  ScrollView,
 } from 'react-native';
 import io from 'socket.io-client';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -19,6 +20,7 @@ import {timeSince, getUserInfo} from 'utils';
 import Style from './style';
 import {getMessages, removeThread} from './apis';
 import Config from 'react-native-config';
+
 const row = [];
 let prevOpenedRow;
 const ChatList = ({navigation}) => {
@@ -28,6 +30,7 @@ const ChatList = ({navigation}) => {
   const [textMessage, setTextMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [lastChat, setLastChat] = useState([]);
+
   const getAllMessage = useCallback((isShowLoading = true) => {
     setLoading(isShowLoading);
     getMessages()
@@ -146,100 +149,123 @@ const ChatList = ({navigation}) => {
     );
   };
   const ListItem = ({item, index}) => {
-    console.log(item, '-------item---------');
     return (
-      <TouchableOpacity
-        onPress={() => onChatItemClick(item)}
-        activeOpacity={1}
-        style={Style.listUpperView}>
-        <Swipeable
-          renderRightActions={() => renderRightActions(item, index)}
-          onSwipeableOpen={() => closeRow(index)}
-          ref={ref => (row[index] = ref)}
-          rightOpenValue={-100}>
-          <View style={Style.listItem}>
-            {item?.friendInfo?.profile ? (
-              <Image
-                source={{uri: item?.friendInfo?.profile}}
-                style={Style.userImage}
-              />
-            ) : (
-              <InitialNameAvatar
-                containerStyle={Style.userImageAvatar}
-                text={item?.friendInfo?.name || 'Ab'}
-              />
-            )}
-
-            <View style={Style.textsView}>
-              <View style={Style.nameView}>
-                <View style={Style.nameTextView}>
-                  <Typography
-                    style={Style.userName}
-                    text={item?.friendInfo?.name}
-                    numberOfLines={1}
-                  />
-                  {item?.friendInfo?.isInvite === 1 && (
-                    <Typography
-                      style={Style.notRegister}
-                      text={strings('chatScreen.notRegister')}
-                    />
-                  )}
-                </View>
-
-                <View style={Style.timeView}>
-                  <Typography
-                    style={[
-                      Style.timeText,
-                      item?.unReadMessage && Style.unreadMessage,
-                    ]}
-                    text={timeSince(item?.created * 1000, true)}
-                  />
-                  {item?.unReadMessage !== 0 && (
-                    <View style={Style.unReadCount}>
-                      <Typography
-                        style={Style.unreadMessageText}
-                        text={item?.unReadMessage}
-                      />
-                    </View>
-                  )}
-                </View>
-              </View>
-              {item?.messageType === 0 && (
-                <Typography
-                  numberOfLines={1}
-                  style={[
-                    Style.userMessage,
-                    item?.unReadMessage && Style.unreadMessage,
-                  ]}
-                  text={`${item?.unReadMessage ? '\u2B24' : ''} ${
-                    item?.message
-                  }`}
+      <ScrollView>
+        <TouchableOpacity
+          onPress={() => onChatItemClick(item)}
+          activeOpacity={1}
+          style={Style.listUpperView}>
+          <Swipeable
+            renderRightActions={() => renderRightActions(item, index)}
+            onSwipeableOpen={() => closeRow(index)}
+            ref={ref => (row[index] = ref)}
+            rightOpenValue={-100}>
+            <View style={Style.listItem}>
+              {item?.friendInfo?.profile ? (
+                <Image
+                  source={{uri: item?.friendInfo?.profile}}
+                  style={Style.userImage}
+                />
+              ) : (
+                <InitialNameAvatar
+                  containerStyle={Style.userImageAvatar}
+                  text={item?.friendInfo?.name || 'Ab'}
                 />
               )}
-              {item?.messageType === 1 && (
-                <View style={{flex: 1, flexDirection: 'row', marginTop: 6}}>
-                  <Image
-                    style={{width: 35, height: 20, marginLeft: 5}}
-                    source={require('../../../assets/images/GifText.png')}
-                  />
+
+              <View style={Style.textsView}>
+                <View style={Style.nameView}>
+                  <View style={Style.nameTextView}>
+                    <Typography
+                      style={Style.userName}
+                      text={item?.friendInfo?.name}
+                      numberOfLines={1}
+                    />
+                    {item?.friendInfo?.isInvite === 1 && (
+                      <Typography
+                        style={Style.notRegister}
+                        text={strings('chatScreen.notRegister')}
+                      />
+                    )}
+                  </View>
+
+                  <View style={Style.timeView}>
+                    <Typography
+                      style={[
+                        Style.timeText,
+                        item?.unReadMessage && Style.unreadMessage,
+                      ]}
+                      text={timeSince(item?.created * 1000, true)}
+                    />
+                    {item?.unReadMessage !== 0 && (
+                      <View style={Style.unReadCount}>
+                        <Typography
+                          style={Style.unreadMessageText}
+                          text={item?.unReadMessage}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </View>
+                {item?.messageType === 0 && (
                   <Typography
                     numberOfLines={1}
                     style={[
                       Style.userMessage,
                       item?.unReadMessage && Style.unreadMessage,
                     ]}
-                    text={`${item?.unReadMessage ? '\u2B24' : ''} ${'GIF'}`}
+                    text={`${item?.unReadMessage ? '\u2B24' : ''} ${
+                      item?.message
+                    }`}
                   />
-                </View>
-              )}
+                )}
+                {item?.messageType === 1 && (
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 6}}>
+                    <Image
+                      style={{width: 35, height: 20, marginLeft: 5}}
+                      source={require('../../../assets/images/GifText.png')}
+                    />
+                    <Typography
+                      numberOfLines={1}
+                      style={[
+                        Style.userMessage,
+                        item?.unReadMessage && Style.unreadMessage,
+                      ]}
+                      text={`${item?.unReadMessage ? '\u2B24' : ''} ${'GIF'}`}
+                    />
+                  </View>
+                )}
+                {item?.messageType === 2 && (
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 6}}>
+                    <Image
+                      style={{width: 35, height: 20, marginLeft: 5}}
+                      source={require('../../../assets/images/stickerlogo.png')}
+                    />
+                    <Typography
+                      numberOfLines={1}
+                      style={[
+                        Style.userMessage,
+                        item?.unReadMessage && Style.unreadMessage,
+                      ]}
+                      text={`${
+                        item?.unReadMessage ? '\u2B24' : ''
+                      } ${'Stickers'}`}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
-        </Swipeable>
-      </TouchableOpacity>
+          </Swipeable>
+        </TouchableOpacity>
+      </ScrollView>
     );
   };
+  const closeModel = useCallback(() => {
+    setModalVisible(val => !val);
+    //setProfile(false)
+  }, []);
   return (
-    <View style={Style.container}>
+    <SafeAreaView style={Style.container}>
       <View style={Style.headerContainer}>
         <Typography style={Style.chatText} text={strings('chatScreen.chats')} />
         {/* <TouchableOpacity
@@ -261,6 +287,7 @@ const ChatList = ({navigation}) => {
           value={textMessage}
         />
       </View>
+
       <FlatList
         renderItem={({item, index}) => {
           return <ListItem item={item} index={index} />;
@@ -273,6 +300,7 @@ const ChatList = ({navigation}) => {
         onRefresh={onRefresh}
         refreshing={isRefreshing}
       />
+
       {!lastChat?.length && !loading && (
         <View style={Style.noChat}>
           <Typography
@@ -282,7 +310,7 @@ const ChatList = ({navigation}) => {
         </View>
       )}
       {loading && <Loader loading={loading} />}
-    </View>
+    </SafeAreaView>
   );
 };
 

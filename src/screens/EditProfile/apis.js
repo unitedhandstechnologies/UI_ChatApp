@@ -1,6 +1,9 @@
 import {ApiUrl} from 'constants/apiUrlContant';
 import {getToken} from 'utils';
-import Config from "react-native-config";
+import Config from 'react-native-config';
+import {ApiUrl} from 'constants/apiUrlContant';
+import {getToken} from 'utils';
+import Config from 'react-native-config';
 export const editUserInfo = async body => {
   let URL = `${Config.REACT_APP_API_BASE_URL}${ApiUrl.updateProfile}`;
   let headers = {

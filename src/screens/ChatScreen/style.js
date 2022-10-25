@@ -173,6 +173,11 @@ const styles = StyleSheet.create({
     width: scaleSize(90),
     borderRadius: scaleSize(90),
   },
+  userPicture: {
+    height: scaleSize(320),
+    width: scaleSize(310),
+    borderRadius: scaleSize(10),
+  },
   userImagePrv: {
     height: scaleSize(250),
     width: '100%',
@@ -209,11 +214,28 @@ const styles = StyleSheet.create({
   internalView: {
     backgroundColor: white,
     opacity: 1,
-    height: scaleSize(325),
+    height: scaleSize(350),
     width: '100%',
     // paddingHorizontal: scaleSize(12),
     borderRadius: 20,
     padding: scaleSize(45),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  profileEnlarge: {
+    backgroundColor: white,
+    opacity: 1,
+    height: scaleSize(390),
+    width: '100%',
+    // paddingHorizontal: scaleSize(12),
+    borderRadius: 20,
+    padding: scaleSize(25),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -230,8 +252,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   crossIcon: {
-    height: scaleSize(30),
-    width: scaleSize(30),
+    height: scaleSize(20),
+    width: scaleSize(20),
   },
   iconView: {
     flexDirection: 'row',
@@ -276,8 +298,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 150,
-    height: 150,
+    width: 80,
+    height: 80,
     borderWidth: 2,
     borderColor: 'lightblue',
     resizeMode: 'contain',
@@ -289,26 +311,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingTop: 5,
-    marginLeft: 50,
+    marginRight: 80,
   },
   stickers: {
     flexDirection: 'row',
-    marginLeft: 110,
+    marginLeft: 100,
     paddingBottom: 10,
   },
   gifStickerView: {
     width: '90%',
     height: 40,
     margin: 10,
-    backgroundColor: 'blue',
+    backgroundColor: 'lightgray',
     borderRadius: 20,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stickerText: {
     fontWeight: '500',
     fontSize: scaleFont(20),
-    color: 'white',
+    color: 'black',
+  },
+  typingAnimation: {
+    width: 60,
+    height: 25,
+    //margin: 10,
+    backgroundColor: 'lightgray',
+    borderRadius: 20,
+  },
+  dailIcon: {
+    width: 40,
+    height: 40,
+    marginTop: scaleSize(20),
+    marginLeft: scaleSize(100),
   },
 });
 

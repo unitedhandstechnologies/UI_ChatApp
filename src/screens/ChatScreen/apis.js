@@ -5,3 +5,4 @@ export const getMessages = threadId => GET(`${ApiUrl.getMessage}${threadId}`);
 export const readAllMessage = chatId => Patch(`${ApiUrl.readMessage}${chatId}`);
 export const deleteSingleMessage = chatId =>
   Delete(`${ApiUrl.deleteMessage}${chatId}`);
+export const getAllStickers = () => GET(`${ApiUrl.getAllStickers}`);
